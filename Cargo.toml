@@ -1,9 +1,9 @@
 [package]
 name = "rvi"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["bujnlc8 <75124771@qq.com>"]
-description = "A small tool to let you write rust file with rust-analyzer not using cargo"
+description = "A small tool to let you write rust with rust-analyzer not using cargo"
 license = "MIT"
 keywords = ["cli", "youcompleteme", "none-cargo"]
 repository = "https://github.com/bujnlc8/rvi"

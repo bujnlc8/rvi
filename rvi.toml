@@ -1,10 +1,11 @@
-project_dir ="~/www/rust/test"
+# your code's directory
+project_dir ="~/rust/test"
 # maybe vim or other alias of you
 editor="vim"
-# the ycm_extra_conf.py if you use Youcompleteme
-ycm_extra_conf = ".ycm_extra_conf.py"
+# the ycm_extra_conf.py if you use Youcompleteme, otherwise just leave it blank.
+ycm_extra_conf = "~/.ycm_extra_conf.py"
 
-# rust-project.json content
+# rust-project.json content, you can edit it
 rust_project_json = """
 {
     "sysroot_src":"~/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/library",
