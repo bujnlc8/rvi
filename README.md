@@ -1,6 +1,6 @@
 [![rvi](https://github.com/bujnlc8/rvi/actions/workflows/rvi.yml/badge.svg?branch=master)](https://github.com/bujnlc8/rvi/actions/workflows/rvi.yml)
 
-A small tool to let you write rust with rust-analyzer not using cargo.
+A small tool to let you write rust with `vim` and `rust-analyzer` not using `cargo`.
 
 *   Suppose you use [vim](https://github.com/vim/vim) and [rust analyzer](https://github.com/rust-lang/rust-analyzer).
 *   When you use vim and rust-analyzer to edit single rust file, you will find rust-analyzer do not work well, code completion and code check are broken.
