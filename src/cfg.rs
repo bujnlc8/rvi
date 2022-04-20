@@ -149,7 +149,8 @@ path='./{#file_name}'
         let mut json_file = File::create(rust_project_json_path)?;
         json_file.write_all(rust_project_json.as_bytes())?;
         // write ycm_extra_conf.py
-        if self.ycm_extra_conf.is_some() {
+        if self.ycm_extra_conf.is_some() && !self.ycm_extra_conf.as_ref().unwrap().trim().is_empty()
+        {
             #[cfg(target_family = "unix")]
             self.link_ycm_extra_conf()?;
             #[cfg(not(target_family = "unix"))]
