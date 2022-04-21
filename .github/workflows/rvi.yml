@@ -168,6 +168,10 @@ jobs:
         cp "${{ steps.strip.outputs.BIN_PATH }}" "$ARCHIVE_DIR"
         # README
         cp "README.md" "$ARCHIVE_DIR"
+        # rvi.toml
+        cp "rvi.toml" "$ARCHIVE_DIR"
+        # .ycm_extra_conf.py.example
+        cp ".ycm_extra_conf.py.example" "$ARCHIVE_DIR"
         pushd "${PKG_STAGING}/" >/dev/null
         case ${{ matrix.job.target }} in
           *-pc-windows-*) 7z -y a "${PKG_NAME}" "${PKG_BASENAME}"/* | tail -2 ;;
