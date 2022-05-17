@@ -1,6 +1,6 @@
 [package]
 name = "rvi"
-version = "0.1.3"
+version = "0.1.4"
 edition = "2021"
 authors = ["bujnlc8 <75124771@qq.com>"]
 description = "A small tool to let you write rust with rust-analyzer not using cargo"

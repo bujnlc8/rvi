@@ -68,7 +68,7 @@ path='./{#file_name}'
         }
     }
 
-    fn get_project_dir(&self) -> String {
+    fn get_project_dir(&self, file_name: &str) -> String {
         let h = dirs::home_dir().expect("get home dir failed");
         let p = self.project_dir.replace('~', h.to_str().unwrap());
         if !std::path::PathBuf::from(&p).exists() {
@@ -77,19 +77,38 @@ path='./{#file_name}'
                 std::process::exit(1);
             }
         }
+        if file_name.contains(std::path::MAIN_SEPARATOR) {
+            let dir = std::path::PathBuf::from(&p)
+                .join(std::path::PathBuf::from(file_name).parent().unwrap());
+            if !dir.exists() {
+                if let Err(e) = std::fs::create_dir(&dir) {
+                    eprintln!("Create dir err, {}", e);
+                    std::process::exit(1);
+                }
+            }
+            return dir.to_string_lossy().to_string();
+        }
         p
     }
 
     pub fn get_full_file_path(&self, file_name: &str) -> String {
-        std::path::PathBuf::from(self.get_project_dir())
+        let project_dir = self.get_project_dir(file_name);
+        if file_name.contains(std::path::MAIN_SEPARATOR) {
+            return std::path::PathBuf::from(project_dir)
+                .join(std::path::PathBuf::from(file_name).file_name().unwrap())
+                .to_string_lossy()
+                .to_string();
+        }
+        std::path::PathBuf::from(project_dir)
             .join(file_name)
             .to_string_lossy()
             .to_string()
     }
 
     #[cfg(target_family = "unix")]
-    fn link_ycm_extra_conf(&self) -> Result<()> {
-        let p = std::path::PathBuf::from(self.get_project_dir()).join(".ycm_extra_conf.py");
+    fn link_ycm_extra_conf(&self, file_name: &str) -> Result<()> {
+        let p =
+            std::path::PathBuf::from(self.get_project_dir(file_name)).join(".ycm_extra_conf.py");
         if p.exists() {
             return Ok(());
         }
@@ -114,8 +133,9 @@ path='./{#file_name}'
     }
 
     #[cfg(not(target_family = "unix"))]
-    fn copy_ycm_extra_conf(&self) -> Result<()> {
-        let p = std::path::PathBuf::from(self.get_project_dir()).join(".ycm_extra_conf.py");
+    fn copy_ycm_extra_conf(&self, file_name: &str) -> Result<()> {
+        let p =
+            std::path::PathBuf::from(self.get_project_dir(file_name)).join(".ycm_extra_conf.py");
         if p.exists() {
             return Ok(());
         }
@@ -135,26 +155,34 @@ path='./{#file_name}'
     }
 
     pub fn write_config(&self, file_name: &str) -> Result<()> {
-        let cargo_toml = self.get_cargo_toml().replace("{#file_name}", file_name);
+        let pure_file_name = std::path::PathBuf::from(file_name)
+            .file_name()
+            .unwrap()
+            .to_string_lossy()
+            .to_string();
+        let cargo_toml = self
+            .get_cargo_toml()
+            .replace("{#file_name}", pure_file_name.as_str());
         // write cargo.toml
-        let cargo_path = std::path::PathBuf::from(self.get_project_dir()).join("Cargo.toml");
+        let cargo_path =
+            std::path::PathBuf::from(self.get_project_dir(file_name)).join("Cargo.toml");
         let mut cargo_file = File::create(cargo_path)?;
         cargo_file.write_all(cargo_toml.as_bytes())?;
         // write rust-project.json
         let rust_project_json = self
             .get_rust_project_json()
-            .replace("{#file_name}", file_name);
+            .replace("{#file_name}", pure_file_name.as_str());
         let rust_project_json_path =
-            std::path::PathBuf::from(self.get_project_dir()).join("rust-project.json");
+            std::path::PathBuf::from(self.get_project_dir(file_name)).join("rust-project.json");
         let mut json_file = File::create(rust_project_json_path)?;
         json_file.write_all(rust_project_json.as_bytes())?;
         // write ycm_extra_conf.py
         if self.ycm_extra_conf.is_some() && !self.ycm_extra_conf.as_ref().unwrap().trim().is_empty()
         {
             #[cfg(target_family = "unix")]
-            self.link_ycm_extra_conf()?;
+            self.link_ycm_extra_conf(file_name)?;
             #[cfg(not(target_family = "unix"))]
-            self.copy_ycm_extra_conf()?;
+            self.copy_ycm_extra_conf(file_name)?;
         }
         Ok(())
     }
