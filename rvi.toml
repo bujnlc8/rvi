@@ -8,7 +8,7 @@ ycm_extra_conf = "~/.ycm_extra_conf.py"
 # rust-project.json content, you can edit it
 rust_project_json = """
 {
-    "sysroot":"~/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/library",
+    "sysroot":"~/.rustup/toolchains/nightly-x86_64-apple-darwin",
     "sysroot_src":"~/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/library",
     "crates":[
         {

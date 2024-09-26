@@ -1,7 +1,7 @@
 name: rvi
 
 env:
-  MIN_SUPPORTED_RUST_VERSION: "1.59.0"
+  MIN_SUPPORTED_RUST_VERSION: "1.78.0"
   CICD_INTERMEDIATES_DIR: "_cicd-intermediates"
 
 on:
