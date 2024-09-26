@@ -1,5 +1,5 @@
 # your code's directory
-project_dir ="~/rust/test"
+project_dir ="~/rust/playground"
 # maybe vim or other alias of you
 editor="vim"
 # the ycm_extra_conf.py if you use Youcompleteme, otherwise just leave it blank.
@@ -8,6 +8,7 @@ ycm_extra_conf = "~/.ycm_extra_conf.py"
 # rust-project.json content, you can edit it
 rust_project_json = """
 {
+    "sysroot":"~/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/library",
     "sysroot_src":"~/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/library",
     "crates":[
         {
@@ -20,14 +21,16 @@ rust_project_json = """
     ]
 }
 """
+
 # cargo.toml content
 cargo_toml = """
 [package]
-name = "leetcode"
+name = "play"
 version = "0.1.0"
 edition = "2021"
 
-[lib]
+[[bin]]
+name = "play"
 path='./{#file_name}'
 
 [dependencies]

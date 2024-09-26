@@ -48,10 +48,10 @@ impl Config {
             Some(ref e) => e.clone(),
             None => r#"
 [package]
-name = "test"
+name = "play"
 version = "0.1.0"
 edition = "2021"
-description = "Just a test"
+description = "rust playground"
 
 [lib]
 path='./{#file_name}'

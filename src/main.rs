@@ -5,7 +5,7 @@ use anyhow::Result;
 fn main() -> Result<()> {
     let args: Vec<String> = std::env::args().collect();
     if args.len() < 2 {
-        eprintln!("Usage: rvi file_name.rs");
+        eprintln!("USAGE: rvi file_name.rs");
         std::process::exit(1);
     }
     let file_name = args[1].clone();
